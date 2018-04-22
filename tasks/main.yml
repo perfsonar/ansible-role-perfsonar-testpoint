@@ -1,2 +1,56 @@
 ---
 # tasks file for perfsonar-testpoint
+
+# Setup the required repositories
+- name: Add EPEL repository (RedHat based systems)
+  yum:
+    name: epel-release
+    state: latest
+  when: ansible_os_family == "RedHat"
+
+- name: Add perfSONAR repository (RedHat based systems)
+  yum:
+    name: http://software.internet2.edu/rpms/el7/x86_64/main/RPMS/perfSONAR-repo-0.8-1.noarch.rpm
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Import perfSONAR repository signing key (Debian based systems)
+  apt_key:
+    url: http://downloads.perfsonar.net/debian/perfsonar-debian-official.gpg.key
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Add perfSONAR repository (Debian based systems)
+  apt_repository:
+    repo: deb http://downloads.perfsonar.net/debian/ perfsonar-jessie-release main
+    state: present
+  when: ansible_os_family == "Debian"
+
+# Make sure we have the latest upgrades installed
+- name: Install system updates (RedHat based systems)
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+  ignore_errors: True
+  when: ansible_os_family == "RedHat"
+
+- name: Install system updates (Debian based systems)
+  apt:
+    upgrade: dist
+    update_cache: yes
+  ignore_errors: True
+  when: ansible_os_family == "Debian"
+
+# Install the perfsonar-testpoint bundle
+- name: Install perfSONAR testpoint
+  package:
+    name: perfsonar-testpoint
+    state: present
+
+# Configure services
+
+# Make sure services are running
+
+# Run a few useful perfSONAR commands
+
