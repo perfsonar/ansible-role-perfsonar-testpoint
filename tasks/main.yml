@@ -25,7 +25,7 @@
 
 - name: Add perfSONAR repository (Debian based systems)
   apt_repository:
-    repo: deb http://downloads.perfsonar.net/debian/ perfsonar-jessie-release main
+    repo: deb http://downloads.perfsonar.net/debian/ perfsonar-jessie-{{ perfsonar_release }} main
     state: present
   when: ansible_os_family == "Debian"
   tags: 'ps::install'

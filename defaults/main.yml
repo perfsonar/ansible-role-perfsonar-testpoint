@@ -1,2 +1,21 @@
 ---
 # defaults file for perfsonar-testpoint
+
+# The perfSONAR repository you want to use on your systems
+# Can be any of release, staging or snapshot
+perfsonar_release: release
+
+# List of NTP servers you want to use on your perfSONAR hosts
+# If empty, any already configured NTP server will not be changed
+# If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
+# provided script to choose the closest NTP servers will be used.
+ntp_servers: 'perfsonar'
+
+# Additional perfSONAR packages
+# See list at http://docs.perfsonar.net/install_debian.html#optional-packages
+perfsonar_toolkit_ntp: True
+perfsonar_toolkit_security: True
+perfsonar_toolkit_servicewatcher: True
+perfsonar_toolkit_sysctl: True
+perfsonar_toolkit_systemenv_testpoint: True
+
