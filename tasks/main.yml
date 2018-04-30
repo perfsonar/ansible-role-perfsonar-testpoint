@@ -1,6 +1,14 @@
 ---
 # tasks file for perfsonar-testpoint
 
+# Load OS dependant variables
+- name: Load variables based on the OS type
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+  tags: 'ps::config'
+
 # Setup the required repositories
 - name: Add EPEL repository (RedHat based systems)
   yum:
@@ -55,7 +63,31 @@
     state: present
   tags: 'ps::install'
 
+# Remove any conflictuous configuration
+- name: Make sure FQDN is not pointing to any localhost entry in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    state: 'absent'
+    regexp: '127.0..*{{ ansible_fqdn }}'
+  tags: 'ps::prerequisites'
+
 # Configure services
+- name: Configure additional NTP servers
+  blockinfile:
+    path: /etc/ntp.conf
+    block: |
+      server {{ item.hostname }} iburst
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+  with_items: "{{ ntp_servers }}"
+  tags: 'ps::config'
+  register: ntp_config
+
+- name: Restart NTP server
+  service:
+    name: "{{ ntp_service }}"
+    state: restarted
+  tags: 'ps::config'
+  when: ntp_config.changed
 
 # Make sure services are running
 
