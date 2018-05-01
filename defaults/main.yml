@@ -8,8 +8,8 @@ perfsonar_release: release
 # List of NTP servers you want to use on your perfSONAR hosts
 # If empty, any already configured NTP server will not be changed
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
-# provided script to choose the closest NTP servers will be used.
-#ntp_servers: 'perfsonar'
+# provided script to choose the closest NTP servers will be used too.
+# TODO: do not install perfsonar-toolkit-ntp when this list is not empty
 ntp_servers: 
   - { name: SWITCH NTP, hostname: ntp.switch.ch }
   - { name: CH NTP-0, hostname: 0.ch.pool.ntp.org }
@@ -19,9 +19,10 @@ ntp_servers:
 
 # Additional perfSONAR packages
 # See list at http://docs.perfsonar.net/install_debian.html#optional-packages
-perfsonar_toolkit_ntp: True
-perfsonar_toolkit_security: True
-perfsonar_toolkit_servicewatcher: True
-perfsonar_toolkit_sysctl: True
-perfsonar_toolkit_systemenv_testpoint: True
+perfsonar_optional_packages:
+  - perfsonar-toolkit-ntp
+  - perfsonar-toolkit-security
+  - perfsonar-toolkit-servicewatcher
+  - perfsonar-toolkit-sysctl
+  - perfsonar-toolkit-systemenv-testpoint
 
