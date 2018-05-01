@@ -34,9 +34,12 @@ Some tags are used in the role, they are meant to run only or skip part of the p
 Examples,
 
   - If you only want to install the perfSONAR software without configuring it automatically, you can run:
-    `ansible-playbook site.yml --tags "ps::install"`
+
+        ansible-playbook site.yml --tags "ps::install"
+
   - If you have already installed the perfSONAR packages and you only want to change an already existing config, you can run:
-    `ansible-playbook site.yml --skip-tags "ps::install"`
+
+        ansible-playbook site.yml --skip-tags "ps::install"
 
 Dependencies
 ------------

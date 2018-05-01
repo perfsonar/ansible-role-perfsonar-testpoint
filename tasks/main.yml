@@ -80,21 +80,24 @@
 
 # Configure services
 - name: Configure additional NTP servers
-  blockinfile:
+  lineinfile:
     path: /etc/ntp.conf
-    block: |
-      server {{ item.hostname }} iburst
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-  with_items: "{{ ntp_servers }}"
+    line: "server {{ item }} iburst"
+  with_items: "{{ perfsonar_ntp_servers }}"
   tags: 'ps::config'
-  register: ntp_config
+  notify:
+    - restart ntp
 
-- name: Restart NTP server
-  service:
-    name: "{{ ntp_service }}"
-    state: restarted
+- name: Disable ssh root access
+  lineinfile:
+    state: present
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+  when: perfsonar_disable_root_ssh
   tags: 'ps::config'
-  when: ntp_config.changed
+  notify:
+    - restart ssh
 
 # Make sure services are running
 
