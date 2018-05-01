@@ -2,8 +2,12 @@
 # handlers file for perfsonar-testpoint
 
 - name: restart ntp
-  service: name="{{ ntp_service }}" state=restarted
+  service:
+    name: "{{ ntp_service }}"
+    state: restarted
 
 - name: restart ssh
-  service: name=sshd state=restarted
+  service:
+    name: sshd
+    state: restarted
 

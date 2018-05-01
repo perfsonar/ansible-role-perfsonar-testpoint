@@ -1,3 +1,9 @@
 ---
-# variables specific to Debian
+# variables specific to Debian OS family
 ntp_service: ntp
+
+# List of perfSONAR services to check are running on Debian hosts
+perfsonar_os_specific_services:
+  - apache2
+  - postgresql
+

@@ -2,41 +2,42 @@
 # tasks file for perfsonar-testpoint
 
 # Load OS dependant variables
-- name: Load variables based on the OS type
+# This needs to be done for all tags, so use the 'always' special tag
+- name: Load variables based on OS type
   include_vars: "{{ item }}"
+  tags: [ 'always' ]
   with_first_found:
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
-  tags: 'ps::config'
 
 # Setup the required repositories
 - name: Add EPEL repository (RedHat based systems)
   yum:
     name: epel-release
     state: latest
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "RedHat"
-  tags: 'ps::install'
 
 - name: Add perfSONAR repository (RedHat based systems)
   yum:
     name: http://software.internet2.edu/rpms/el7/x86_64/main/RPMS/perfSONAR-repo-0.8-1.noarch.rpm
     state: present
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "RedHat"
-  tags: 'ps::install'
 
 - name: Import perfSONAR repository signing key (Debian based systems)
   apt_key:
     url: http://downloads.perfsonar.net/debian/perfsonar-debian-official.gpg.key
     state: present
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
-  tags: 'ps::install'
 
 - name: Add perfSONAR repository (Debian based systems)
   apt_repository:
     repo: deb http://downloads.perfsonar.net/debian/ perfsonar-jessie-{{ perfsonar_release }} main
     state: present
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
-  tags: 'ps::install'
 
 # Make sure we have the latest upgrades installed
 - name: Install system updates (RedHat based systems)
@@ -45,30 +46,30 @@
     state: latest
     update_cache: yes
   ignore_errors: True
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "RedHat"
-  tags: 'ps::install'
 
 - name: Install system updates (Debian based systems)
   apt:
     upgrade: dist
     update_cache: yes
   ignore_errors: True
+  tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
-  tags: 'ps::install'
 
 # Install the perfsonar-testpoint bundle and any other optional perfsonar package
 - name: Install perfSONAR testpoint
   package:
     name: perfsonar-testpoint
     state: present
-  tags: 'ps::install'
+  tags: [ 'ps::install' ]
 
 - name: Install perfSONAR optional packages
   package:
     name: "{{ item }}"
     state: present
+  tags: [ 'ps::install' ]
   with_items: "{{ perfsonar_optional_packages }}"
-  tags: 'ps::install'
 
 # Remove any conflictuous configuration
 - name: Make sure FQDN is not pointing to any localhost entry in /etc/hosts
@@ -76,15 +77,17 @@
     path: /etc/hosts
     state: 'absent'
     regexp: '127.0..*{{ ansible_fqdn }}'
-  tags: 'ps::preconfig'
+  tags: [ 'ps::config' ]
 
 # Configure services
 - name: Configure additional NTP servers
-  lineinfile:
+  blockinfile:
     path: /etc/ntp.conf
-    line: "server {{ item }} iburst"
+    block: |
+      server {{ item.hostname }} iburst
+      marker: "# {mark} ansible-role-perfsonar {{ item.name }}"
+  tags: [ 'ps::config' ]
   with_items: "{{ perfsonar_ntp_servers }}"
-  tags: 'ps::config'
   notify:
     - restart ntp
 
@@ -92,14 +95,25 @@
   lineinfile:
     state: present
     path: /etc/ssh/sshd_config
-    regexp: "^PermitRootLogin"
+    regexp: "^PermitRootLogin "
     line: "PermitRootLogin no"
+  tags: [ 'ps::config' ]
   when: perfsonar_disable_root_ssh
-  tags: 'ps::config'
   notify:
     - restart ssh
 
 # Make sure services are running
+# But first flush handlers to ensure services are restarted
+- meta: flush_handlers
+- name: Check that all perfSONAR services are running
+  service:
+    name: pscheduler-scheduler
+    state: started
+  tags: [ 'ps::running' ]
+  with_flattened:
+      - "{{ ntp_service }}"
+      - "{{ perfsonar_services }}"
+      - "{{ perfsonar_os_specific_services }}"
 
 # Run a few useful perfSONAR commands
 
