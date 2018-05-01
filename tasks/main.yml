@@ -76,7 +76,7 @@
     path: /etc/hosts
     state: 'absent'
     regexp: '127.0..*{{ ansible_fqdn }}'
-  tags: 'ps::prerequisites'
+  tags: 'ps::preconfig'
 
 # Configure services
 - name: Configure additional NTP servers

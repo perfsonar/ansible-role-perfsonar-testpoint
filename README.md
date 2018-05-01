@@ -16,17 +16,27 @@ The hosts must be manageable through Ansible including access to some Ansible mo
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+  - `defaults/main.yml` contains the following variables:
+    - `ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint
+    - `perfsonar_optional_packages` is the list of additional optional packages you want to install with the testpoint bundle, see http://docs.perfsonar.net/install_debian.html#optional-packages or http://docs.perfsonar.net/install_centos.html#optional-packages for more information.
+
+  - `vars/Debian.yml` and `vars/RedHat.yml` contains distro specific settings, but shouldn't need to be altered for a regular install.
 
 Role Tags
 ---------
 
 Some tags are used in the role, they are meant to run only or skip part of the process.  The following tags are existing:
 
-  - ps::install
-  - ps::configure
+  - ps::install : only install perfSONAR packages and their dependencies
+  - ps::preconfig : make sure your system is ready for perfSONAR configuration
+  - ps::config : only configure any already installed perfSONAR package
 
-If, for example, you only want to install the perfSONAR software without configure it automatically, you can run: `ansible-playbook site.yml --skip-tags "ps::install"`
+Examples,
+
+  - If you only want to install the perfSONAR software without configuring it automatically, you can run:
+    `ansible-playbook site.yml --tags "ps::install"`
+  - If you have already installed the perfSONAR packages and you only want to change an already existing config, you can run:
+    `ansible-playbook site.yml --skip-tags "ps::install"`
 
 Dependencies
 ------------
