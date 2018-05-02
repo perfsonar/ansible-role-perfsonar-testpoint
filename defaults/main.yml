@@ -23,11 +23,11 @@ perfsonar_optional_packages:
 # TODO: do not install perfsonar-toolkit-ntp when this list is not empty
 #perfsonar_ntp_servers: []
 perfsonar_ntp_servers: 
-  - { name: "NTP SWITCH", hostname: ntp.switch.ch }
-  - { name: "NTP pool CH 0", hostname: 0.ch.pool.ntp.org }
-  - { name: "NTP pool CH 1", hostname: 1.ch.pool.ntp.org }
-  - { name: "NTP pool CH 2", hostname: 2.ch.pool.ntp.org }
-  - { name: "NTP pool CH 3", hostname: 3.ch.pool.ntp.org }
+  - { name: "NTP 1", hostname: ntp.switch.ch }
+  - { name: "NTP 2", hostname: 0.ch.pool.ntp.org }
+  - { name: "NTP 3", hostname: 1.ch.pool.ntp.org }
+  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
+  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
 
 # Disable ssh root access
 perfsonar_disable_root_ssh: True

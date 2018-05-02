@@ -76,7 +76,7 @@
   lineinfile:
     path: /etc/hosts
     state: 'absent'
-    regexp: '127.0..*{{ ansible_fqdn }}'
+    regexp: '127\.0\..* {{ ansible_fqdn }}'
   tags: [ 'ps::config' ]
 
 # Configure services
@@ -85,7 +85,7 @@
     path: /etc/ntp.conf
     block: |
       server {{ item.hostname }} iburst
-      marker: "# {mark} ansible-role-perfsonar {{ item.name }}"
+    marker: "# {mark} ansible-role-perfsonar {{ item.name }}"
   tags: [ 'ps::config' ]
   with_items: "{{ perfsonar_ntp_servers }}"
   notify:
@@ -107,7 +107,7 @@
 - meta: flush_handlers
 - name: Check that all perfSONAR services are running
   service:
-    name: pscheduler-scheduler
+    name: "{{ item }}"
     state: started
   tags: [ 'ps::running' ]
   with_flattened:
@@ -116,4 +116,8 @@
       - "{{ perfsonar_os_specific_services }}"
 
 # Run a few useful perfSONAR commands
+- name: Run pscheduler troubleshoot locally
+  command: pscheduler troubleshoot
+  tags: [ 'ps::running' ]
+  changed_when: False
 
