@@ -1,9 +1,8 @@
 ---
 # defaults file for perfsonar-testpoint
 
-# The perfSONAR repository you want to use on your systems
-# Can be any of release, staging or snapshot
-perfsonar_release: release
+#####
+# This first set of variables should be adapted for your deployment.
 
 # Additional perfSONAR packages to be installed on the perfSONAR host
 # See list at http://docs.perfsonar.net/install_debian.html#optional-packages
@@ -21,16 +20,23 @@ perfsonar_optional_packages:
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
 # provided script to choose the closest NTP servers will be used too.
 # TODO: do not install perfsonar-toolkit-ntp when this list is not empty
-#perfsonar_ntp_servers: []
-perfsonar_ntp_servers: 
-  - { name: "NTP 1", hostname: ntp.switch.ch }
-  - { name: "NTP 2", hostname: 0.ch.pool.ntp.org }
-  - { name: "NTP 3", hostname: 1.ch.pool.ntp.org }
-  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
-  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
+perfsonar_ntp_servers: []
+#perfsonar_ntp_servers: 
+#  - { name: "NTP 1", hostname: ntp.switch.ch }
+#  - { name: "NTP 2", hostname: 0.ch.pool.ntp.org }
+#  - { name: "NTP 3", hostname: 1.ch.pool.ntp.org }
+#  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
+#  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
 
 # Disable ssh root access
 perfsonar_disable_root_ssh: True
+
+#####
+# The variables here below shouldn't need to be altered for your deployment, unless you know what you're doing.
+
+# The perfSONAR repository you want to use on your systems
+# Can be any of release, staging or snapshot
+perfsonar_release: release
 
 # List of perfSONAR services to check are running
 perfsonar_services:

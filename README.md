@@ -11,25 +11,27 @@ This role is meant to work with any perfSONAR supported distro:
   - CentOS: http://docs.perfsonar.net/install_centos.html
   - Debian/Ubuntu: http://docs.perfsonar.net/install_debian.html
 
-The hosts must be manageable through Ansible including access to some Ansible modules.  We recommend that you bootstrap Ansible on your hosts prior to running this role.  A good way to do that is using https://galaxy.ansible.com/robertdebock/bootstrap/ as a very first role.
+The hosts must be manageable through Ansible including access to some Ansible modules.  We recommend that you bootstrap Ansible on your hosts prior to running this role.  This can be done manually or through roles provided by [DebOps][debops] or some bootstrap roles available on Ansible Galaxy like [robertdebock.bootstrap][rdbs] as a very first role.
 
 Role Variables
 --------------
 
-  - `defaults/main.yml` contains the following variables:
-    - `ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint
-    - `perfsonar_optional_packages` is the list of additional optional packages you want to install with the testpoint bundle, see http://docs.perfsonar.net/install_debian.html#optional-packages or http://docs.perfsonar.net/install_centos.html#optional-packages for more information.
+The following variables can/should be defined for your host setup:
 
-  - `vars/Debian.yml` and `vars/RedHat.yml` contains distro specific settings, but shouldn't need to be altered for a regular install.
+  - `perfsonar_optional_packages` is the list of additional optional packages you want to install with the testpoint bundle, see [the debian list][debian-optional] and [the centos list][centos-optional] for more information.  All optional packages are installed per default.
+  - `perfsonar_ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint, or an empty list, per default, if you want to use the perfSONAR provided NTP servers.
+  - `perfsonar_disable_root_ssh` disable or keep ssh root access, the default is to disable it.
+
+  - Some other variables are defined at the end of `default/main.yml` and in `vars/Debian.yml` and `vars/RedHat.yml` (those contains distro specific settings), but shouldn't need to be altered for a regular install.
 
 Role Tags
 ---------
 
 Some tags are used in the role, they are meant to run only or skip part of the process.  The following tags are existing:
 
-  - ps::install : only install perfSONAR packages and their dependencies
-  - ps::preconfig : make sure your system is ready for perfSONAR configuration
-  - ps::config : only configure any already installed perfSONAR package
+  - `ps::install` : only install perfSONAR packages and their dependencies
+  - `ps::config` : only configure any already installed perfSONAR package
+  - `ps::running` : checks that your perfSONAR node is running as intended
 
 Examples,
 
@@ -53,7 +55,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: perfsonar-testpoint
 
 License
 -------
@@ -65,3 +67,8 @@ Author Information
 
 This role is provided by the perfSONAR team.  See http://www.perfsonar.net and https://github.com/perfsonar/ for more information.
 
+
+[debops]: https://debops.org/
+[rdbs]: https://galaxy.ansible.com/robertdebock/bootstrap/
+[debian-optional]: http://docs.perfsonar.net/install_debian.html#optional-packages
+[centos-optional]: http://docs.perfsonar.net/install_centos.html#optional-packages
