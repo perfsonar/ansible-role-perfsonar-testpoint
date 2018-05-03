@@ -57,10 +57,10 @@
   tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
 
-# Install the perfsonar-testpoint bundle and any other optional perfsonar package
-- name: Install perfSONAR testpoint
+# Install the perfsonar(-testpoint) bundle and any other optional perfsonar package
+- name: Install perfSONAR bundle "{{ perfsonar_bundle }}"
   package:
-    name: perfsonar-testpoint
+    name: "{{ perfsonar_bundle }}"
     state: present
   tags: [ 'ps::install' ]
 

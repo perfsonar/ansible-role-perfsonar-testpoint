@@ -1,2 +1,20 @@
 ---
 # vars file for perfsonar-testpoint
+# Variables defined in this file have precedence over a lot of other places
+# This means they cannot be overwritten in inventory or playbook.
+# See http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+
+# List of perfSONAR services to check are running
+perfsonar_services:
+  - pscheduler-scheduler
+  - pscheduler-runner
+  - pscheduler-archiver
+  - pscheduler-ticker
+  - owamp-server
+  - perfsonar-lsregistrationdaemon
+  - perfsonar-meshconfig-agent
+  - memcached
+
+# perfSONAR bundle to install
+perfsonar_bundle: perfsonar-testpoint
+

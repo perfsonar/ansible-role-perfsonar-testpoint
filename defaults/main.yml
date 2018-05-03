@@ -38,14 +38,3 @@ perfsonar_disable_root_ssh: True
 # Can be any of release, staging or snapshot
 perfsonar_release: release
 
-# List of perfSONAR services to check are running
-perfsonar_services:
-  - pscheduler-scheduler
-  - pscheduler-runner
-  - pscheduler-archiver
-  - pscheduler-ticker
-  - owamp-server
-  - perfsonar-lsregistrationdaemon
-  - perfsonar-meshconfig-agent
-  - memcached
-

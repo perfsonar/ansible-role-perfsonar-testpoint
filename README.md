@@ -1,5 +1,5 @@
-Role Name
-=========
+perfSONAR-testpoint Ansible role
+================================
 
 This roles installs and configure a perfSONAR testpoint.
 
