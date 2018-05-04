@@ -111,7 +111,6 @@
     state: started
   tags: [ 'ps::running' ]
   with_flattened:
-      - "{{ ntp_service }}"
       - "{{ perfsonar_services }}"
       - "{{ perfsonar_os_specific_services }}"
 

@@ -5,7 +5,9 @@
 # See http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
 
 # List of perfSONAR services to check are running
-perfsonar_services:
+# We define the list as a reference to another list, so that we can merge and override in other roles
+perfsonar_services: "{{ perfsonar_testpoint_services }}"
+perfsonar_testpoint_services:
   - pscheduler-scheduler
   - pscheduler-runner
   - pscheduler-archiver

@@ -6,4 +6,5 @@ ntp_service: ntpd
 perfsonar_os_specific_services:
   - httpd
   - postgresql-9.5
+  - "{{ ntp_service }}"
 

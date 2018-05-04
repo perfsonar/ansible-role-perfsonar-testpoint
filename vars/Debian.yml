@@ -6,4 +6,5 @@ ntp_service: ntp
 perfsonar_os_specific_services:
   - apache2
   - postgresql
+  - "{{ ntp_service }}"
 
