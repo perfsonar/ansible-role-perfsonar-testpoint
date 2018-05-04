@@ -18,8 +18,7 @@ perfsonar_optional_packages:
 # List of NTP servers you want to use on your perfSONAR hosts
 # If empty, any already configured NTP server will not be changed
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
-# provided script to choose the closest NTP servers will be used too.
-# TODO: do not install perfsonar-toolkit-ntp when this list is not empty
+# provided script will choose the closest NTP servers for you.
 perfsonar_ntp_servers: []
 #perfsonar_ntp_servers: 
 #  - { name: "NTP 1", hostname: ntp.switch.ch }

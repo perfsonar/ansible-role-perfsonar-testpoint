@@ -1,7 +1,9 @@
 ---
 # tasks file for perfsonar-testpoint
 
+#####
 # Load OS dependant variables
+#####
 # This needs to be done for all tags, so use the 'always' special tag
 - name: Load variables based on OS type
   include_vars: "{{ item }}"
@@ -10,6 +12,9 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
 
+#####
+# Installation part: ps::install tag
+#####
 # Setup the required repositories
 - name: Add EPEL repository (RedHat based systems)
   yum:
@@ -57,21 +62,27 @@
   tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
 
-# Install the perfsonar(-testpoint) bundle and any other optional perfsonar package
+# Install the perfsonar packages
+# The bundle is in a variable so that it can be overriden by roles higher up
 - name: Install perfSONAR bundle "{{ perfsonar_bundle }}"
   package:
     name: "{{ perfsonar_bundle }}"
     state: present
   tags: [ 'ps::install' ]
 
+# Install the optional perfsonar packages, except for perfsonar-toolkit-ntp if we have a list of NTP servers
 - name: Install perfSONAR optional packages
   package:
     name: "{{ item }}"
     state: present
   tags: [ 'ps::install' ]
+  when: item != "perfsonar-toolkit-ntp" or not perfsonar_ntp_servers
   with_items: "{{ perfsonar_optional_packages }}"
 
-# Remove any conflictuous configuration
+#####
+# Configuration part: ps::config tag
+#####
+# Remove any conflictuous /etc/hosts configuration
 - name: Make sure FQDN is not pointing to any localhost entry in /etc/hosts
   lineinfile:
     path: /etc/hosts
@@ -79,7 +90,7 @@
     regexp: '127\.0\..* {{ ansible_fqdn }}'
   tags: [ 'ps::config' ]
 
-# Configure services
+# NTP is essential for good measurements
 - name: Configure additional NTP servers
   blockinfile:
     path: /etc/ntp.conf
@@ -102,8 +113,10 @@
   notify:
     - restart ssh
 
-# Make sure services are running
-# But first flush handlers to ensure services are restarted
+#####
+# Verifying part: ps::running tag
+#####
+# Make sure services are running, but first flush handlers to ensure services are restarted
 - meta: flush_handlers
 - name: Check that all perfSONAR services are running
   service:
