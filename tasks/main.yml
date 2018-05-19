@@ -31,9 +31,18 @@
   tags: [ 'ps::install' ]
   when: ansible_os_family == "RedHat"
 
+- name: Use perfSONAR staging or nightly repository (RedHat based systems)
+  yum:
+    name: perfSONAR-repo-{{ perfsonar_release }}
+    state: present
+  tags: [ 'ps::install' ]
+  when:
+    - ansible_os_family == "RedHat"
+    - perfsonar_release == "staging" or perfsonar_release == "nightly"
+
 - name: Import perfSONAR repository signing key (Debian based systems)
   apt_key:
-    url: http://downloads.perfsonar.net/debian/perfsonar-debian-official.gpg.key
+    url: http://downloads.perfsonar.net/debian/perfsonar-jessie-{{ perfsonar_release }}.gpg.key
     state: present
   tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"

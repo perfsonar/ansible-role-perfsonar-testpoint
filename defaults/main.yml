@@ -34,6 +34,7 @@ perfsonar_disable_root_ssh: True
 # The variables here below shouldn't need to be altered for your deployment, unless you know what you're doing.
 
 # The perfSONAR repository you want to use on your systems
-# Can be any of release, staging or snapshot
+# Can be any of release, staging or snapshot for Debian/Ubuntu systems
+# or release, staging or nightly for CentOS systems
 perfsonar_release: release
 
