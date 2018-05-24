@@ -38,3 +38,8 @@ perfsonar_disable_root_ssh: True
 # or release, staging or nightly for CentOS systems
 perfsonar_release: release
 
+# perfSONAR bundle to install
+# Refer to the list of all perfSONAR bundles at http://docs.perfsonar.net/install_options.html
+# This variable is meant to be overriden by other roles that would depend on this one
+perfsonar_bundle: perfsonar-testpoint
+

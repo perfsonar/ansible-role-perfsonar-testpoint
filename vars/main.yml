@@ -17,6 +17,3 @@ perfsonar_testpoint_services:
   - perfsonar-meshconfig-agent
   - memcached
 
-# perfSONAR bundle to install
-perfsonar_bundle: perfsonar-testpoint
-
