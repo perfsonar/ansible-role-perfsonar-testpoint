@@ -97,7 +97,7 @@
   lineinfile:
     path: /etc/hosts
     state: 'absent'
-    regexp: '127\.0\..* {{ ansible_fqdn }}'
+    regexp: '127\.0\..*[\s]+{{ ansible_fqdn }}[\s]+.*'
   tags: [ 'ps::config' ]
 
 # NTP is essential for good measurements
