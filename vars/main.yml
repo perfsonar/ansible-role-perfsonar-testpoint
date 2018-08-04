@@ -15,5 +15,6 @@ perfsonar_testpoint_services:
   - owamp-server
   - perfsonar-lsregistrationdaemon
   - perfsonar-meshconfig-agent
+    # TODO: to be replaced by psconfig-pscheduler-agent in 4.1
   - memcached
 
