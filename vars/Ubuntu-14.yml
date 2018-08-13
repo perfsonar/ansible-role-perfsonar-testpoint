@@ -1,11 +1,13 @@
-# variables specific to Debian OS family
+# Variables specific to Ubuntu 14
 ---
 # NTP service name
 ntp_service: ntp
+
+# SSH daemon service
+ssh_service: ssh
 
 # List of perfSONAR services to check are running on Debian hosts
 perfsonar_os_specific_services:
   - apache2
   - postgresql
   - "{{ ntp_service }}"
-

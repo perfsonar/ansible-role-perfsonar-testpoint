@@ -1,8 +1,11 @@
----
 # vars file for perfsonar-testpoint
+---
 # Variables defined in this file have precedence over a lot of other places
 # This means they cannot be overwritten in inventory or playbook.
 # See http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+
+# SSH daemon service
+ssh_service: sshd
 
 # List of perfSONAR services to check are running
 # We define the list as a reference to another list, so that we can merge and override in other roles

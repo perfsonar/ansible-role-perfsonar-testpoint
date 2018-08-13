@@ -8,6 +8,6 @@
 
 - name: restart ssh
   service:
-    name: sshd
+    name: "{{ ssh_service }}"
     state: restarted
 

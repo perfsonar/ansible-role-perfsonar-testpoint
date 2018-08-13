@@ -1,5 +1,6 @@
----
 # variables specific to RedHat OS family
+---
+# NTP service name
 ntp_service: ntpd
 
 # List of perfSONAR services to check are running on RedHat hosts
