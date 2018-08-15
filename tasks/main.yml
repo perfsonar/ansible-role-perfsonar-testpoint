@@ -42,14 +42,14 @@
 
 - name: Import perfSONAR repository signing key (Debian based systems)
   apt_key:
-    url: http://downloads.perfsonar.net/debian/perfsonar-jessie-{{ perfsonar_release }}.gpg.key
+    url: http://downloads.perfsonar.net/debian/perfsonar-{{ perfsonar_release }}.gpg.key
     state: present
   tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
 
 - name: Add perfSONAR repository (Debian based systems)
   apt_repository:
-    repo: deb http://downloads.perfsonar.net/debian/ perfsonar-jessie-{{ perfsonar_release }} main
+    repo: deb http://downloads.perfsonar.net/debian/ perfsonar-{{ perfsonar_release }} main
     state: present
   tags: [ 'ps::install' ]
   when: ansible_os_family == "Debian"
