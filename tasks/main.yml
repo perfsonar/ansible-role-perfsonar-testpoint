@@ -40,6 +40,14 @@
     - ansible_os_family == "RedHat"
     - perfsonar_release == "staging" or perfsonar_release == "nightly"
 
+- name: Make sure the universe repo is enabled (Ubuntu systems)
+  # It is better to use add-apt-repository rather than the apt_repository module from Ansible.
+  # This command will NOT duplicate an already existing universe repo setup using a mirror.
+  shell: LANGUAGE=C add-apt-repository universe
+  when: ansible_distribution == "Ubuntu"
+  register: universe_output
+  changed_when: universe_output.stdout != "'universe' distribution component is already enabled for all sources."
+
 - name: Import perfSONAR repository signing key (Debian based systems)
   apt_key:
     url: http://downloads.perfsonar.net/debian/perfsonar-{{ perfsonar_release }}.gpg.key
