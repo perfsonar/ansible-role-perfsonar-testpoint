@@ -30,6 +30,12 @@ perfsonar_ntp_servers: []
 # Disable ssh root access
 perfsonar_disable_root_ssh: True
 
+# psconfig related setup
+# A list of remotes you want to use on your perfsonar-testpoint node
+perfsonar_psconfig_remote_remotes: []
+# We usually want to add any archives coming from the remote template
+perfsonar_psconfig_remote_options: "--configure-archives"
+
 #####
 # The variables here below shouldn't need to be altered for your deployment, unless you know what you're doing.
 
