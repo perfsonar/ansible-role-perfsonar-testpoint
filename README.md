@@ -13,6 +13,8 @@ This role is meant to work with any perfSONAR supported distro:
 
 The hosts must be manageable through Ansible including access to some Ansible modules.  We recommend that you bootstrap Ansible on your hosts prior to running this role.  This can be done manually or through roles provided by [DebOps][debops] or some bootstrap roles available on Ansible Galaxy like [robertdebock.bootstrap][rdbs] as a very first role.
 
+It requires Ansible v2.3 at least.
+
 Role Variables
 --------------
 

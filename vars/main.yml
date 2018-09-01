@@ -17,7 +17,6 @@ perfsonar_testpoint_services:
   - pscheduler-ticker
   - owamp-server
   - perfsonar-lsregistrationdaemon
-  - perfsonar-meshconfig-agent
   - psconfig-pscheduler-agent
   - memcached
 
