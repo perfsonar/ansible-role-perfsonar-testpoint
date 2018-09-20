@@ -63,6 +63,7 @@
   when: ansible_os_family == "Debian"
 
 # Make sure we have the latest upgrades installed
+# TODO: should be controlled by a variable
 - name: Install system updates (RedHat based systems)
   yum:
     name: '*'
@@ -134,12 +135,13 @@
 # TODO: configure LS registration
 
 # Configure the measurements
-- name: Add psconfig remotes
+- name: Add or replace psconfig remotes
   command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item }}"
   with_items: "{{ perfsonar_psconfig_remote_remotes }}"
-  tags: [ 'ps::config' ]
+  tags: [ 'ps::config', 'ps::running' ]
 
 # TODO: add archive definitions
+# TODO: manage archives authkeys
 
 #####
 # Verifying part: ps::running tag
