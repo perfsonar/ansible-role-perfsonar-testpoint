@@ -139,6 +139,7 @@
   with_items: "{{ perfsonar_psconfig_remote_remotes }}"
   tags: [ 'ps::config' ]
 
+# TODO: add archive definitions
 
 #####
 # Verifying part: ps::running tag
@@ -155,6 +156,8 @@
       - "{{ perfsonar_os_specific_services }}"
 
 # Run a few useful perfSONAR commands
+# TODO: How to handle errors gracefully?
+# i.e.: report the error, but do not stop playbook execution
 - name: Run pscheduler troubleshoot locally
   command: pscheduler troubleshoot
   tags: [ 'ps::running' ]
