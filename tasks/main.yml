@@ -134,11 +134,19 @@
 
 # TODO: configure LS registration
 
-# Configure the measurements
+# Configure the measurements from remote templates
 - name: Add or replace psconfig remotes
-  command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item }}"
-  with_items: "{{ perfsonar_psconfig_remote_remotes }}"
+  command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
+  loop: "{{ perfsonar_psconfig_remote_remotes }}"
+  when: item.state == 'present'
   tags: [ 'ps::config', 'ps::running' ]
+
+- name: Delete psconfig remotes
+  command: psconfig remote delete "{{ item.url }}"
+  loop: "{{ perfsonar_psconfig_remote_remotes }}"
+  when: item.state == 'absent'
+  tags: [ 'ps::config', 'ps::running' ]
+
 
 # TODO: add archive definitions
 # TODO: manage archives authkeys

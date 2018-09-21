@@ -13,7 +13,7 @@ This role is meant to work with any perfSONAR supported distro:
 
 The hosts must be manageable through Ansible including access to some Ansible modules.  We recommend that you bootstrap Ansible on your hosts prior to running this role.  This can be done manually or through roles provided by [DebOps][debops] or some bootstrap roles available on Ansible Galaxy like [robertdebock.bootstrap][rdbs] as a very first role.
 
-It requires Ansible v2.3 at least.
+It requires Ansible v2.5 at least.
 
 Role Variables
 --------------
@@ -23,6 +23,8 @@ The following variables can/should be defined for your host setup:
   - `perfsonar_optional_packages` is the list of additional optional packages you want to install with the testpoint bundle, see [the debian list][debian-optional] and [the centos list][centos-optional] for more information.  All optional packages are installed per default.
   - `perfsonar_ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint, or an empty list, per default, if you want to use the perfSONAR provided NTP servers.
   - `perfsonar_disable_root_ssh` disable or keep ssh root access, the default is to disable it.
+  - `perfsonar_psconfig_remote_remotes` list the URL of remote templates that should be added or deleted from each testpoint host.
+  - `perfsonar_psconfig_remote_options` contains the options to add to the `psconfig remote add` command.
 
   - Some other variables are defined at the end of `default/main.yml` and in `vars/Debian.yml` and `vars/RedHat.yml` (those contains distro specific settings), but shouldn't need to be altered for a regular install.
 
