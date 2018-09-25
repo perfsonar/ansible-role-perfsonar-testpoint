@@ -104,7 +104,7 @@
 # Remove any conflictuous /etc/hosts configuration
 - name: Make sure FQDN is not pointing to any localhost entry in /etc/hosts
   lineinfile:
-    path: /etc/hosts
+    dest: /etc/hosts
     state: 'absent'
     regexp: '127\.0\..*[\s]+{{ ansible_fqdn }}[\s]+.*'
   tags: [ 'ps::config' ]
@@ -124,7 +124,7 @@
 - name: Disable ssh root access
   lineinfile:
     state: present
-    path: /etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin "
     line: "PermitRootLogin no"
   tags: [ 'ps::config' ]
@@ -137,14 +137,14 @@
 # Configure the measurements from remote templates
 - name: Add or replace psconfig remotes
   command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
-  loop: "{{ perfsonar_psconfig_remote_remotes }}"
   when: item.state == 'present'
+  with_items: "{{ perfsonar_psconfig_remote_remotes }}"
   tags: [ 'ps::config', 'ps::running' ]
 
 - name: Delete psconfig remotes
   command: psconfig remote delete "{{ item.url }}"
-  loop: "{{ perfsonar_psconfig_remote_remotes }}"
   when: item.state == 'absent'
+  with_items: "{{ perfsonar_psconfig_remote_remotes }}"
   tags: [ 'ps::config', 'ps::running' ]
 
 
