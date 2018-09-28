@@ -44,6 +44,10 @@ perfsonar_psconfig_remote_options: "--configure-archives"
 #####
 # The variables here below shouldn't need to be altered for your deployment, unless you know what you're doing.
 
+# List of perfSONAR services to make sure are running
+# We define the list as a reference to another list, so that we can merge and override in other roles
+perfsonar_services: "{{ perfsonar_testpoint_services }}"
+
 # The perfSONAR repository you want to use on your systems
 # Can be any of release, staging or snapshot for Debian/Ubuntu systems
 # or release, staging or nightly for CentOS systems

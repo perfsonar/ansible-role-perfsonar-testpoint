@@ -7,9 +7,7 @@
 # SSH daemon service
 ssh_service: sshd
 
-# List of perfSONAR services to check are running
-# We define the list as a reference to another list, so that we can merge and override in other roles
-perfsonar_services: "{{ perfsonar_testpoint_services }}"
+# List of perfSONAR services to check are running on a testpoint install
 perfsonar_testpoint_services:
   - pscheduler-scheduler
   - pscheduler-runner
