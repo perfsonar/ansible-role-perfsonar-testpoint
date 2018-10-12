@@ -138,13 +138,13 @@
 - name: Add or replace psconfig remotes
   command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
   when: item.state == 'present'
-  with_items: "{{ perfsonar_psconfig_remote_remotes }}"
+  with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
   tags: [ 'ps::config', 'ps::running' ]
 
 - name: Delete psconfig remotes
   command: psconfig remote delete "{{ item.url }}"
   when: item.state == 'absent'
-  with_items: "{{ perfsonar_psconfig_remote_remotes }}"
+  with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
   tags: [ 'ps::config', 'ps::running' ]
 
 

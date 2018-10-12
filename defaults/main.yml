@@ -37,6 +37,7 @@ perfsonar_disable_root_ssh: True
 # perfsonar_psconfig_remote_remotes:
 #   - { url: 'https://central.perfsonar.utr.surfcloud.nl/psconfig/astron-mesh.json', state: 'present' }
 #   - { url: 'https://central.astron.pert.edu/psconfig/astron-mesh.json', state: 'absent' }
+# If the list is empty or the variable undefined, no remote will be added nor removed.
 perfsonar_psconfig_remote_remotes: []
 # We usually want to add any archives coming from the remote template
 perfsonar_psconfig_remote_options: "--configure-archives"
