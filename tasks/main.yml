@@ -63,7 +63,6 @@
   when: ansible_os_family == "Debian"
 
 # Make sure we have the latest upgrades installed
-# TODO: should be controlled by a variable
 - name: Install system updates (RedHat based systems)
   yum:
     name: '*'
@@ -71,7 +70,7 @@
     update_cache: yes
   ignore_errors: True
   tags: [ 'ps::install' ]
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and perfsonar_os_update == True
 
 - name: Install system updates (Debian based systems)
   apt:
@@ -79,7 +78,7 @@
     update_cache: yes
   ignore_errors: True
   tags: [ 'ps::install' ]
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian" and perfsonar_os_update == True
 
 # Install the perfsonar packages
 # The bundle is in a variable so that it can be overriden by roles higher up
