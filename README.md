@@ -20,7 +20,7 @@ Role Variables
 
 The following variables can/should be defined for your host setup:
 
-  - `perfsonar_optional_packages` is the list of additional optional packages you want to install with the testpoint bundle, see [the debian list][debian-optional] and [the centos list][centos-optional] for more information.  All optional packages are installed per default.
+  - `perfsonar_os_update` defaults to True.  This causes the base OS to be updated.
   - `perfsonar_ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint, or an empty list, per default, if you want to use the perfSONAR provided NTP servers.
   - `perfsonar_disable_root_ssh` disable or keep ssh root access, the default is to disable it.
   - `perfsonar_psconfig_remote_remotes` list the URL of remote templates that should be added or deleted from each testpoint host.
