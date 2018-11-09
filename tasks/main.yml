@@ -4,10 +4,10 @@
 #####
 # Load OS dependant variables
 #####
-# This needs to be done for all tags, so use the 'always' special tag
+# This needs to be done for all tags
 - name: Load variables based on OS type
   include_vars: "{{ item }}"
-  tags: [ 'always' ]
+  tags: [ 'ps::install', 'ps::running', 'ps::config' ]
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
