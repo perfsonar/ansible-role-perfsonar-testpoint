@@ -63,8 +63,14 @@
   tags: [ 'ps::config', 'ps::running' ]
 
 
-# TODO: add archive definitions
-# TODO: manage archives authkeys
+# IMPROVE: manage archive auth
+- name: register interfaces with measurement archives
+  command: /usr/sbin/esmond_manage add_user_ip_address "{{ perfsonar_esmond_uid }}" "{{ item[0] }}"
+  delegate_to: "{{ item[1] }}"
+  with_nested:
+    - "{{ perfsonar_esmond_interfaces }}"
+    - "{{ perfsonar_esmond_archives }}"
+  tags: [ 'ps::config' ]
 
 #####
 # Verifying part: ps::running tag

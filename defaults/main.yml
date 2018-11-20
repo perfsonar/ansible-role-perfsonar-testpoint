@@ -46,6 +46,13 @@ perfsonar_psconfig_remote_remotes: []
 # We usually want to add any archives coming from the remote template
 perfsonar_psconfig_remote_options: "--configure-archives"
 
+# setting the perfsonar_esmond-* variables will register testpoints with the archivers
+#perfsonar_esmond_interfaces: "{{ ansible_all_ipv4_addresses }}"
+#perfsonar_esmond_archives: "{{ groups['ps-archives'] }}"
+perfsonar_esmond_interfaces: []
+perfsonar_esmond_archives: []
+perfsonar_esmond_uid: perfsonar
+
 #####
 # The variables here below shouldn't need to be altered for your deployment, unless you know what you're doing.
 
