@@ -57,9 +57,3 @@ perfsonar_services: "{{ perfsonar_testpoint_services }}"
 # Can be any of release, staging or snapshot for Debian/Ubuntu systems
 # or release, staging or nightly for CentOS systems
 perfsonar_release: release
-
-# perfSONAR bundle to install
-# Refer to the list of all perfSONAR bundles at http://docs.perfsonar.net/install_options.html
-# This variable is meant to be overriden by other roles that would depend on this one
-perfsonar_bundle: perfsonar-testpoint
-

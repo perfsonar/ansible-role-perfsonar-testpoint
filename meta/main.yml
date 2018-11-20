@@ -28,5 +28,5 @@ galaxy_info:
     - metrics
     - performance
 
-dependencies: []
-
+dependencies:
+  - role: ansible-role-perfsonar-installer
