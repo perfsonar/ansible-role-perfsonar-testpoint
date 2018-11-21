@@ -64,3 +64,6 @@ perfsonar_services: "{{ perfsonar_testpoint_services }}"
 # Can be any of release, staging or snapshot for Debian/Ubuntu systems
 # or release, staging or nightly for CentOS systems
 perfsonar_release: release
+
+# perfSONAR bundle to install
+perfsonar_bundle: perfsonar-testpoint

@@ -4,9 +4,6 @@
 # This means they cannot be overwritten in inventory or playbook.
 # See http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
 
-# perfSONAR bundle to install
-perfsonar_bundle: perfsonar-testpoint
-
 # SSH daemon service
 ssh_service: sshd
 
