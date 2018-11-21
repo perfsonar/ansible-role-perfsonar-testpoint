@@ -7,7 +7,7 @@ ntp_service: ntp
 ssh_service: ssh
 
 # List of perfSONAR services to check are running on Debian hosts
-perfsonar_os_specific_services:
+perfsonar_testpoint_os_specific_services:
   - apache2
   - postgresql
   - "{{ ntp_service }}"

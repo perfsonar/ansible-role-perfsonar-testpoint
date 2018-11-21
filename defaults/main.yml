@@ -59,6 +59,7 @@ perfsonar_esmond_uid: perfsonar
 # List of perfSONAR services to make sure are running
 # We define the list as a reference to another list, so that we can merge and override in other roles
 perfsonar_services: "{{ perfsonar_testpoint_services }}"
+perfsonar_os_specific_services: "{{ perfsonar_testpoint_os_specific_services }}"
 
 # The perfSONAR repository you want to use on your systems
 # Can be any of release, staging or snapshot for Debian/Ubuntu systems
