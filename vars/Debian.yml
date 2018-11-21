@@ -9,3 +9,4 @@ perfsonar_testpoint_os_specific_services:
   - postgresql
   - "{{ ntp_service }}"
 
+perfsonar_toolkit_config_daemon: perfsonar-toolkit-config-daemon
