@@ -6,8 +6,8 @@
 #####
 # This needs to be done for all tags
 - name: Load variables based on OS type
-  include_vars: "{{ item }}"
   tags: [ 'ps::install', 'ps::running', 'ps::config' ]
+  include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
@@ -18,31 +18,31 @@
 #####
 # Remove any conflictuous /etc/hosts configuration
 - name: Make sure FQDN is not pointing to any localhost entry in /etc/hosts
+  tags: [ 'ps::config' ]
   lineinfile:
     dest: /etc/hosts
     state: 'absent'
     regexp: '127\.0\..*[\s]+{{ ansible_fqdn }}[\s]+.*'
-  tags: [ 'ps::config' ]
 
 # NTP is essential for good measurements
 - name: Configure additional NTP servers
+  tags: [ 'ps::config' ]
   blockinfile:
     path: /etc/ntp.conf
     block: |
       server {{ item.hostname }} iburst
     marker: "# {mark} ansible-role-perfsonar {{ item.name }}"
-  tags: [ 'ps::config' ]
   with_items: "{{ perfsonar_ntp_servers }}"
   notify:
     - restart ntp
 
 - name: Disable ssh root access
+  tags: [ 'ps::config' ]
   lineinfile:
     state: present
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin "
     line: "PermitRootLogin no"
-  tags: [ 'ps::config' ]
   when: perfsonar_disable_root_ssh
   notify:
     - restart ssh
@@ -51,22 +51,29 @@
 
 # Configure the measurements from remote templates
 - name: Add or replace psconfig remotes
-  command: psconfig remote add "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
+  tags: [ 'ps::config', 'ps::running' ]
+  command: >
+    psconfig remote add
+    "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
   when: item.state == 'present'
   with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
-  tags: [ 'ps::config', 'ps::running' ]
 
 - name: Delete psconfig remotes
+  tags: [ 'ps::config', 'ps::running' ]
   command: psconfig remote delete "{{ item.url }}"
   when: item.state == 'absent'
   with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
-  tags: [ 'ps::config', 'ps::running' ]
 
 - name: auth interfaces with measurement archives
-  command: /usr/sbin/esmond_manage add_user_ip_address "{{ perfsonar_archive_uid }}" "{{ item[0] }}"
-  delegate_to: "{{ item[1] }}"
-  loop: "{{ perfsonar_archive_auth_interfaces | product(perfsonar_archive_hosts) | list }}"
   tags: [ 'ps::config' ]
+  command: >
+    /usr/sbin/esmond_manage add_user_ip_address
+    "{{ perfsonar_archive_uid }}" "{{ item[0] }}"
+  delegate_to: "{{ item[1] }}"
+  loop: >
+    {{ perfsonar_archive_auth_interfaces |
+    product(perfsonar_archive_hosts) |
+    list }}
 
 #####
 # Verifying part: ps::running tag
@@ -74,10 +81,10 @@
 # Make sure services are running, but first flush handlers to ensure services are restarted
 - meta: flush_handlers
 - name: Check that all perfSONAR services are running
+  tags: [ 'ps::running' ]
   service:
     name: "{{ item }}"
     state: started
-  tags: [ 'ps::running' ]
   with_flattened:
       - "{{ perfsonar_services }}"
       - "{{ perfsonar_os_specific_services }}"
@@ -86,7 +93,7 @@
 # TODO: How to handle errors gracefully?
 # i.e.: report the error, but do not stop playbook execution
 - name: Run pscheduler troubleshoot locally
-  command: pscheduler troubleshoot
   tags: [ 'ps::running' ]
+  command: pscheduler troubleshoot
   changed_when: False
 
