@@ -24,7 +24,7 @@ The following variables can/should be defined for your host setup:
   - `perfsonar_ntp_servers` is a list of NTP servers to configure on the perfSONAR testpoint, or an empty list, per default, if you want to use the perfSONAR provided NTP servers.
   - `perfsonar_disable_root_ssh` disable or keep ssh root access, the default is to disable it.
   - `perfsonar_psconfig_remote_remotes` list the URL of remote templates that should be added or deleted from each testpoint host.
-  - `perfsonar_psconfig_remote_options` contains the options to add to the `psconfig remote add` command.
+     - provides the option to include options to the `psconfig remote add` command.
 
   - Some other variables are defined at the end of `default/main.yml` and in `vars/Debian.yml` and `vars/RedHat.yml` (those contains distro specific settings), but shouldn't need to be altered for a regular install.
 
