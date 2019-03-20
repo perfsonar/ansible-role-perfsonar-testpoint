@@ -54,7 +54,7 @@
   tags: [ 'ps::config', 'ps::running' ]
   command: >
     psconfig remote add
-    "{{ perfsonar_psconfig_remote_options }}" "{{ item.url }}"
+    "{{ item.opt }}" "{{ item.url }}"
   when: item.state == 'present'
   with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
 
