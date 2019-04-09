@@ -47,7 +47,8 @@
   notify:
     - restart ssh
 
-# TODO: configure LS registration
+- name: Configure LS registration
+  include: lsregistration.yml
 
 # Configure the measurements from remote templates
 - name: Add or replace psconfig remotes

@@ -1,0 +1,141 @@
+---
+# tasks file for perfsonar-lsregistrationdaemon
+
+#####
+# Configuration part: ps::config tag
+#####
+- name: Configure LS registration site name
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#site_name "
+    regexp: "^site_name "
+    line: "site_name {{ perfsonar_lsregistration_site_name }}"
+  when: perfsonar_lsregistration_site_name is defined
+
+- name: Configure LS registration domain
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#domain "
+    regexp: "^domain "
+    line: "domain {{ perfsonar_lsregistration_domain }}"
+  when: perfsonar_lsregistration_domain is defined
+
+- name: Configure LS registration city
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#city "
+    regexp: "^city "
+    line: "city {{ perfsonar_lsregistration_city }}"
+  when: perfsonar_lsregistration_city is defined
+
+- name: Configure LS registration region
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#region "
+    regexp: "^region "
+    line: "region {{ perfsonar_lsregistration_region }}"
+  when: perfsonar_lsregistration_region is defined
+
+- name: Configure LS registration country
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#country "
+    regexp: "^country "
+    line: "country {{ perfsonar_lsregistration_country }}"
+  when: perfsonar_lsregistration_country is defined
+
+- name: Configure LS registration zip code
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#zip_code "
+    regexp: "^zip_code "
+    line: "zip_code {{ perfsonar_lsregistration_zip_code }}"
+  when: perfsonar_lsregistration_zip_code is defined
+
+- name: Configure LS registration latitude
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#latitude "
+    regexp: "^latitude "
+    line: "latitude {{ perfsonar_lsregistration_latitude }}"
+  when: perfsonar_lsregistration_latitude is defined
+
+- name: Configure LS registration longitude
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#longitude "
+    regexp: "^longitude "
+    line: "longitude {{ perfsonar_lsregistration_longitude }}"
+  when: perfsonar_lsregistration_longitude is defined
+
+- name: Configure LS registration access policy
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#access_policy "
+    regexp: "^access_policy "
+    line: "access_policy {{ perfsonar_lsregistration_access_policy }}"
+  when: perfsonar_lsregistration_access_policy is defined
+
+- name: Configure LS registration access policy notes
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#access_policy_notes "
+    regexp: "^access_policy_notes "
+    line: "access_policy_notes {{ perfsonar_lsregistration_access_policy_notes }}"
+  when: perfsonar_lsregistration_access_policy_notes is defined
+
+- name: Configure LS registration role
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#?role "
+    regexp: "^role {{ item }}$"
+    line: "role {{ item }}"
+  when: perfsonar_lsregistration_role is defined
+  with_items: "{{ perfsonar_lsregistration_role | default([]) }}"
+
+- name: Configure LS registration site project
+  tags: [ 'ps::config' ]
+  lineinfile:
+    state: present
+    dest: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#?site_project "
+    regexp: "^site_project {{ item }}$"
+    line: "site_project {{ item }}"
+  when: perfsonar_lsregistration_site_project is defined
+  with_items: "{{ perfsonar_lsregistration_site_project | default([]) }}"
+
+- name: Configure LS registration administrator
+  tags: [ 'ps::config' ]
+  blockinfile:
+    path: /etc/perfsonar/lsregistrationdaemon.conf
+    insertafter: "^#</administrator>"
+    marker: "<{mark}administrator>"
+    marker_begin: ""
+    marker_end: "/"
+    block: |2
+          name  {{ perfsonar_lsregistration_administrator_name }}
+          email {{ perfsonar_lsregistration_administrator_email }}
+  when: perfsonar_lsregistration_administrator_name is defined and
+        perfsonar_lsregistration_administrator_email is defined
