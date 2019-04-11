@@ -1,0 +1,28 @@
+---
+# psconfig_remotes.yml
+#
+# item.url should be defined
+# item.state should be 'absent' or 'present'
+# item.configure_archives should be 'True' or 'False'
+#
+# If we need to add much more psconfig functionality, we might consider
+# writing an Ansible module.
+
+- name: psconfig remote delete {{ item.url }}
+  tags: [ 'ps::config' ]
+  command: psconfig remote delete {{ item.url }}
+  when: item.state | default('present') == 'absent'
+
+- name: psconfig remote add {{ item.url }}
+  tags: [ 'ps::config' ]
+  command: psconfig remote add {{ item.url }}
+  when:
+    - item.state | default('present') == 'present'
+    - item.configure_archives | default('False') != True
+
+- name: psconfig remote add --configure-archives {{ item.url }}
+  tags: [ 'ps::config' ]
+  command: psconfig remote add --configure-archives {{ item.url }}
+  when:
+    - item.state | default('present') == 'present'
+    - item.configure_archives | default('False') == True

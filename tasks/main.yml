@@ -48,22 +48,16 @@
     - restart ssh
 
 - name: Configure LS registration
+  tags: [ 'ps::config' ]
   include: lsregistration.yml
 
-# Configure the measurements from remote templates
-- name: Add or replace psconfig remotes
-  tags: [ 'ps::config', 'ps::running' ]
-  command: >
-    psconfig remote add
-    "{{ item.opt }}" "{{ item.url }}"
-  when: item.state == 'present'
+- name: add/delete remote mesh configurations that have a valid URL and state
+  tags: [ 'ps::config' ]
+  include_tasks: psconfig_remotes.yml
   with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
-
-- name: Delete psconfig remotes
-  tags: [ 'ps::config', 'ps::running' ]
-  command: psconfig remote delete "{{ item.url }}"
-  when: item.state == 'absent'
-  with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
+  when:
+    - item.url | default('') != ''
+    - item.state | default('present') in [ "absent", "present" ]
 
 - name: auth interfaces with measurement archives
   tags: [ 'ps::config' ]

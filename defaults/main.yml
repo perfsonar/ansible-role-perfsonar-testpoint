@@ -36,13 +36,20 @@ perfsonar_disable_root_ssh: True
 
 # psconfig related setup
 # A list of remotes you want to use on your perfsonar-testpoint node
-# Each item in the list must contain the remote URL and its state ('present' or 'absent')
-# If we want to add any archives coming from the remote template the optional opt: '--configure-archives', should be added
+# Each item in the list must contain the remote URL
+# Each item in the list must define its state ('present' or 'absent')
+# Each item may optionally use the configure_archives option to enable results to be archived.
+#
 # Example:
 # perfsonar_psconfig_remote_remotes:
-#   - { url: 'https://central.perfsonar.utr.surfcloud.nl/psconfig/astron-mesh.json', state: 'present' }
-#   - { url: 'https://central.perfsonar.utr.surfcloud.nl/psconfig/astron-mesh.json', opt: '--configure-archives', state: 'present' }
-#   - { url: 'https://central.astron.pert.edu/psconfig/astron-mesh.json', state: 'absent' }
+#   - url: https://central.perfsonar.utr.surfcloud.nl/psconfig/astron-mesh.json
+#     state: present
+#     configure_archives: False
+#   - url: https://central.perfsonar.utr.surfcloud.nl/psconfig/astron-mesh.json
+#     state: present
+#     configure_archives: True
+#   - url: https://central.astron.pert.edu/psconfig/astron-mesh.json
+#     state: absent
 # If the list is empty or the variable undefined, no remote will be added nor removed.
 perfsonar_psconfig_remote_remotes: []
 
