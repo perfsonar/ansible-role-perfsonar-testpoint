@@ -1,0 +1,14 @@
+---
+
+- name: auth interfaces with measurement archives
+  tags: [ 'ps::config' ]
+  command: >
+    /usr/sbin/esmond_manage add_user_ip_address
+    "{{ perfsonar_archive_uid }}" "{{ auth_interface }}"
+  delegate_to: "{{ item }}"
+#  debug:
+#    msg: "host {{ item }} interface {{ auth_interface }}"
+  with_items: "{{ perfsonar_archive_hosts | default([]) }}"
+#  loop: "{{ perfsonar_archive_hosts | default([]) }}"
+#  loop_control:
+#    loop_var: auth_host

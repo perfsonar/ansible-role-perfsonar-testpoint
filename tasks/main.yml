@@ -61,14 +61,10 @@
 
 - name: auth interfaces with measurement archives
   tags: [ 'ps::config' ]
-  command: >
-    /usr/sbin/esmond_manage add_user_ip_address
-    "{{ perfsonar_archive_uid }}" "{{ item[0] }}"
-  delegate_to: "{{ item[1] }}"
-  loop: >
-    {{ perfsonar_archive_auth_interfaces |
-    product(perfsonar_archive_hosts) |
-    list }}
+  include_tasks: auth_interface.yml
+  loop: "{{ ansible_all_ipv4_addresses | default([]) }}"
+  loop_control:
+    loop_var: auth_interface
 
 #####
 # Verifying part: ps::running tag
