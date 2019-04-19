@@ -1,0 +1,17 @@
+---
+# defaults file for perfsonar-lsregistrationdaemon
+
+perfsonar_lsregistration_site_name:
+perfsonar_lsregistration_domain:
+perfsonar_lsregistration_city:
+perfsonar_lsregistration_region:
+perfsonar_lsregistration_country:
+perfsonar_lsregistration_zip_code:
+perfsonar_lsregistration_latitude:
+perfsonar_lsregistration_longitude:
+perfsonar_lsregistration_access_policy:
+perfsonar_lsregistration_access_policy_notes:
+perfsonar_lsregistration_role: []
+perfsonar_lsregistration_site_project: []
+perfsonar_lsregistration_administrator_name:
+perfsonar_lsregistration_administrator_email:
