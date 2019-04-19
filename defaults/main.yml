@@ -4,10 +4,6 @@
 #####
 # This first set of variables should be adapted for your deployment.
 
-# The OS packages are updated (yum or apt) prior to install perfSONAR packages.
-# This is recommended as an outdated OS might contain security vulnerabilities.
-perfsonar_os_update: True
-
 # Additional perfSONAR packages to be installed on the perfSONAR host
 # See list at http://docs.perfsonar.net/install_debian.html#optional-packages
 # If you don't want any optional package to be installed, make this an empty list.
