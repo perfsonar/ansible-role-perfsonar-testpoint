@@ -64,10 +64,5 @@ perfsonar_archive_uid: perfsonar
 perfsonar_services: "{{ perfsonar_testpoint_services }}"
 perfsonar_os_specific_services: "{{ perfsonar_testpoint_os_specific_services }}"
 
-# The perfSONAR repository you want to use on your systems
-# Can be any of release, staging or snapshot for Debian/Ubuntu systems
-# or release, staging or nightly for CentOS systems
-perfsonar_release: release
-
 # perfSONAR bundle to install
 perfsonar_bundle: perfsonar-testpoint
