@@ -51,6 +51,14 @@
   tags: [ 'ps::config' ]
   include: lsregistration.yml
 
+- name: Define psconfig remotes
+  tags: [ 'ps::config', 'ps::running' ]
+  template:
+    src=pscfg-remotes.j2
+    dest=/etc/perfsonar/psconfig/pscheduler-agent.json.new
+  with_items: "{{ perfsonar_psconfig_remote_remotes | default([]) }}"
+  when: item.state == 'present'
+
 - name: add/delete remote mesh configurations that have a valid URL and state
   tags: [ 'ps::config' ]
   include_tasks: psconfig_remotes.yml
