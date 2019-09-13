@@ -1,12 +1,11 @@
 # variables specific to RedHat OS family
 ---
-# NTP service name
-ntp_service: ntpd
+# Default NTP service name: ntpd
 
 # List of perfSONAR services to check are running on RedHat hosts
 perfsonar_testpoint_os_specific_services:
   - httpd
   - postgresql-9.5
-  - "{{ ntp_service }}"
+  - "{{ ntp_service | default('ntpd') }}"
 
 perfsonar_toolkit_config_daemon: perfsonar-configdaemon
