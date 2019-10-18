@@ -62,7 +62,7 @@
 - name: auth interfaces with measurement archives
   tags: [ 'ps::config' ]
   include_tasks: auth_interface.yml
-  loop: "{{ ansible_all_ipv4_addresses | default([]) }}"
+  with_items: "{{ ansible_all_ipv4_addresses | default([]) }}"
   loop_control:
     loop_var: auth_interface
 
