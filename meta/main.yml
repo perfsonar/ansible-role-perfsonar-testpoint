@@ -12,11 +12,9 @@ galaxy_info:
         - 7
     - name: Debian
       versions:
-        - 8
         - 9
     - name: Ubuntu
       versions:
-        - 14
         - 16
         - 18
 
