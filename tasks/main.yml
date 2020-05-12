@@ -90,9 +90,15 @@
 # TODO: How to handle errors gracefully?
 # i.e.: report the error, but do not stop playbook execution
 - name: Collecting uptime information
-  tags: [ 'ps::running' ]
+  tags: [ 'ps::running', 'ps::monitor' ]
   shell: uptime
   register: uptime
+  changed_when: False
+
+- name: Get perfSONAR bundle type and version
+  tags: [ 'ps::running', 'ps::monitor' ]
+  shell: cat /var/lib/perfsonar/bundles/bundle_type /var/lib/perfsonar/bundles/bundle_version
+  register: perfsonar_bundle_version
   changed_when: False
 
 - name: Get pscheduler version
@@ -109,6 +115,7 @@
       {{ansible_distribution}}-{{ansible_distribution_major_version}} - {{ansible_processor_cores}} cores - kernel {{ansible_kernel}}
       Memory (free/total in MB): {{ansible_memfree_mb}}/{{ansible_memtotal_mb}} (Swap: {{ansible_swapfree_mb}}/{{ansible_swaptotal_mb}})
       Running {{pscheduler_version.stdout}}
+      From {{ perfsonar_bundle_version.stdout_lines | join (' bundle - version ') }}
   debug:
     msg:
       - "{{ msg[:-1].split('\n') }}"
@@ -121,10 +128,10 @@
   retries: 3
   changed_when: False
 
-- name: Output pscheduler troubleshoot
+- name: Report pscheduler troubleshoot output
   tags: [ 'ps::running', 'ps::monitor' ]
   debug:
     msg:
-      - "{{ pscheduler_troubleshoot.stdout.split('\n') }}"
+      - "{{ pscheduler_troubleshoot.stdout.replace('\n\n','\n').split('\n') }}"
   when: pscheduler_troubleshoot is defined
 
