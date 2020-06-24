@@ -17,6 +17,11 @@
   register: pscheduler_version
   changed_when: False
 
+- name: Get psconfig managed tasks
+  shell: psconfig pscheduler-stats | grep "Total tasks managed by agent:"
+  register: psconfig_managed_tasks
+  changed_when: False
+
 - name: Report system information
   vars:
     msg: |
@@ -25,6 +30,7 @@
       Memory (free/total in MB): {{ansible_memfree_mb}}/{{ansible_memtotal_mb}} (Swap: {{ansible_swapfree_mb}}/{{ansible_swaptotal_mb}})
       Running {{pscheduler_version.stdout}}
       From {{ perfsonar_bundle_version.stdout_lines | join (' bundle - version ') }}
+      pSConfig {{psconfig_managed_tasks.stdout}}
   debug:
     msg:
       - "{{ msg[:-1].split('\n') }}"
