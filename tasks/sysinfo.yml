@@ -1,0 +1,41 @@
+---
+# Run a few useful perfSONAR commands
+# TODO: How to handle errors gracefully?
+# i.e.: report the error, but do not stop playbook execution
+- name: Collecting uptime information
+  shell: uptime
+  register: uptime
+  changed_when: False
+  ignore_errors: True
+
+- name: Get perfSONAR bundle type and version
+  shell: cat /var/lib/perfsonar/bundles/bundle_type /var/lib/perfsonar/bundles/bundle_version
+  register: perfsonar_bundle_version
+  changed_when: False
+  ignore_errors: True
+
+- name: Get pscheduler version
+  shell: pscheduler version | grep pscheduler-server
+  register: pscheduler_version
+  changed_when: False
+  ignore_errors: True
+
+- name: Get psconfig managed tasks
+  shell: psconfig pscheduler-stats | grep "Total tasks managed by agent:"
+  register: psconfig_managed_tasks
+  changed_when: False
+  ignore_errors: True
+
+- name: Report system information
+  vars:
+    msg: |
+      {{ansible_fqdn}} - {{uptime.stdout}}
+      {{ansible_distribution}}-{{ansible_distribution_major_version}} - {{ansible_processor_cores}} cores - kernel {{ansible_kernel}}
+      Memory (free/total in MB): {{ansible_memfree_mb}}/{{ansible_memtotal_mb}} (Swap: {{ansible_swapfree_mb}}/{{ansible_swaptotal_mb}})
+      Running {{pscheduler_version.stdout}}
+      From {{ perfsonar_bundle_version.stdout_lines | join (' bundle - version ') }}
+      pSConfig {{psconfig_managed_tasks.stdout}}
+  debug:
+    msg:
+      - "{{ msg[:-1].split('\n') }}"
+

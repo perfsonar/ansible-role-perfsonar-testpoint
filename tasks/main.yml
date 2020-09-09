@@ -87,6 +87,12 @@
 #####
 # Make sure services are running, but first flush handlers to ensure services are restarted
 - meta: flush_handlers
+
+- pause:
+    prompt: "Waiting 12 seconds for services to stabilise"
+    seconds: 12
+  tags: [ 'ps::running' ]
+
 - name: Check that all perfSONAR services are running
   tags: [ 'ps::running' ]
   service:
@@ -96,11 +102,24 @@
       - "{{ perfsonar_services }}"
       - "{{ perfsonar_os_specific_services }}"
 
-# Run a few useful perfSONAR commands
-# TODO: How to handle errors gracefully?
-# i.e.: report the error, but do not stop playbook execution
+# Get some useful info out of the system
+- name: Check system status
+  tags: [ 'ps::running', 'ps::monitor' ]
+  include: sysinfo.yml
+
+# Run pscheduler troubleshoot
 - name: Run pscheduler troubleshoot locally
   tags: [ 'ps::running' ]
   command: pscheduler troubleshoot
+  register: pscheduler_troubleshoot
+  until: pscheduler_troubleshoot is succeeded
+  retries: 3
   changed_when: False
+
+- name: Report pscheduler troubleshoot output
+  tags: [ 'ps::running', 'ps::monitor' ]
+  debug:
+    msg:
+      - "{{ pscheduler_troubleshoot.stdout.replace('\n\n','\n').split('\n') }}"
+  when: pscheduler_troubleshoot is defined
 

@@ -36,6 +36,7 @@ Some tags are used in the role, they are meant to run only or skip part of the p
   - `ps::install` : only install perfSONAR packages and their dependencies
   - `ps::config` : only configure any already installed perfSONAR package
   - `ps::running` : checks that your perfSONAR node is running as intended
+  - `ps::monitor` : print some system info of your perfSONAR node
 
 Examples,
 
