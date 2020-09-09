@@ -51,6 +51,22 @@
   tags: [ 'ps::config' ]
   include: lsregistration.yml
 
+# pSConfig remotes management
+# We first get a list of configured remotes
+- name: Look at current psconfig remote list
+  tags: [ 'ps::config' ]
+  shell: psconfig remote list | tail -n +2 | jq -r .[].url
+  register: psconfig_remotes
+  changed_when: False
+
+# And list of configured remotes with archiving
+- name: Look at current psconfig remote list with configured archives
+  tags: [ 'ps::config' ]
+  shell: psconfig remote list | tail -n +2 | jq -r '.[] | select(."configure-archives"==true) | .url'
+  register: psconfig_remotes_archives
+  changed_when: False
+
+# The 2 lists are used in psconfig_remotes.yml
 - name: add/delete remote mesh configurations that have a valid URL and state
   tags: [ 'ps::config' ]
   include_tasks: psconfig_remotes.yml

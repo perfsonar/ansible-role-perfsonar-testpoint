@@ -5,24 +5,43 @@
 # item.state should be 'absent' or 'present'
 # item.configure_archives should be 'True' or 'False'
 #
+# psconfig_remotes and psconfig_remotes_archives should be defined
+# (see main.yml how they get populated)
+#
 # If we need to add much more psconfig functionality, we might consider
 # writing an Ansible module.
 
+# Try to delete only if already present
 - name: psconfig remote delete {{ item.url }}
   tags: [ 'ps::config' ]
   command: psconfig remote delete {{ item.url }}
-  when: item.state | default('present') == 'absent'
+  when:
+    - item.state | default('present') == 'absent'
+    - item.url in psconfig_remotes.stdout_lines
 
+# Delete a remote when existing with "configure-archives" and we want it without
+- name: psconfig remote delete {{ item.url }}
+  tags: [ 'ps::config' ]
+  command: psconfig remote delete {{ item.url }}
+  when:
+    - item.state | default('present') == 'present'
+    - item.configure_archives | default('False') != True
+    - item.url in psconfig_remotes_archives.stdout_lines
+
+# Adding only if not already present
 - name: psconfig remote add {{ item.url }}
   tags: [ 'ps::config' ]
   command: psconfig remote add {{ item.url }}
   when:
     - item.state | default('present') == 'present'
     - item.configure_archives | default('False') != True
+    - item.url not in psconfig_remotes.stdout_lines
 
+# Adding only if not already present with "configure-archives" set
 - name: psconfig remote add --configure-archives {{ item.url }}
   tags: [ 'ps::config' ]
   command: psconfig remote add --configure-archives {{ item.url }}
   when:
     - item.state | default('present') == 'present'
     - item.configure_archives | default('False') == True
+    - item.url not in psconfig_remotes_archives.stdout_lines
