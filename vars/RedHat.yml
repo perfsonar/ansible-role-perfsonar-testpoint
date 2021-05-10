@@ -6,6 +6,7 @@
 perfsonar_testpoint_os_specific_services:
   - httpd
   - postgresql-10
-  - "{{ ntp_service | default('ntpd') }}"
 
-perfsonar_toolkit_config_daemon: perfsonar-configdaemon
+perfsonar_toolkit_config_daemon: perfsonar-configdaemonS
+
+ntp_service: ntpd

@@ -6,6 +6,7 @@
 perfsonar_testpoint_os_specific_services:
   - apache2
   - postgresql
-  - "{{ ntp_service | default('ntp') }}"
 
 perfsonar_toolkit_config_daemon: perfsonar-toolkit-config-daemon
+
+ntp_service: ntp
