@@ -27,11 +27,12 @@ perfsonar_ntp_servers: []
 #  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
 #  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
 
-# You can change the default variables for different platforms to which clock synchronization service to use
+# You can change the default variables for different platforms to which clock synchronization service to use.
+# You can use chrony/chronyd instead of ntp
 
 timesync_service:
-        Debian: chrony
-        RedHat: chronyd
+        Debian: ntp
+        RedHat: ntpd
         default: ntp
 
 ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
