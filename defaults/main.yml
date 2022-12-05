@@ -63,7 +63,7 @@ perfsonar_psconfig_remote_remotes: []
 perfsonar_archive_auth_interfaces: []
 #  - "{{ ansible_all_ipv4_addresses }}"
 perfsonar_archive_hosts: []
-#  - "{{ groups['ps-archives'] }}"
+#  - "{{ groups['ps_archive'] }}"
 perfsonar_archive_uid: perfsonar
 
 #####
