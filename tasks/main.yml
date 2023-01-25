@@ -5,6 +5,11 @@
 # Load OS dependant variables
 #####
 # This needs to be done for all tags
+- name: Gather facts to load OS information
+  tags: [ 'ps::install', 'ps::running', 'ps::config' ]
+  setup:
+  become: no
+
 - name: Load variables based on OS type
   tags: [ 'ps::install', 'ps::running', 'ps::config' ]
   include_vars: "{{ item }}"
