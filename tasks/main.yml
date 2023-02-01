@@ -54,7 +54,7 @@
 
 - name: Configure LS registration
   tags: [ 'ps::config' ]
-  include: lsregistration.yml
+  include_tasks: lsregistration.yml
 
 # pSConfig remotes management
 # We first get a list of configured remotes
@@ -110,7 +110,7 @@
 # Get some useful info out of the system
 - name: Check system status
   tags: [ 'ps::running', 'ps::monitor' ]
-  include: sysinfo.yml
+  include_tasks: sysinfo.yml
 
 # Run pscheduler troubleshoot
 - name: Run pscheduler troubleshoot locally
