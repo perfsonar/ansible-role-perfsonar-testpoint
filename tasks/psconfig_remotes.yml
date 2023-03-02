@@ -29,18 +29,18 @@
     - item.url in psconfig_remotes_archives.stdout_lines
 
 # Adding only if not already present
-- name: psconfig remote add {{ item.url }}
+- name: psconfig remote add --no-configure-archives {{ item.url }}
   tags: [ 'ps::config' ]
-  command: psconfig remote add {{ item.url }}
+  command: psconfig remote add --no-configure-archives {{ item.url }}
   when:
     - item.state | default('present') == 'present'
     - item.configure_archives | default('False') != True
     - item.url not in psconfig_remotes.stdout_lines
 
 # Adding only if not already present with "configure-archives" set
-- name: psconfig remote add --configure-archives {{ item.url }}
+- name: psconfig remote add {{ item.url }}
   tags: [ 'ps::config' ]
-  command: psconfig remote add --configure-archives {{ item.url }}
+  command: psconfig remote add {{ item.url }}
   when:
     - item.state | default('present') == 'present'
     - item.configure_archives | default('False') == True
