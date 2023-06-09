@@ -24,7 +24,8 @@ timesync: ntpd
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
 # provided script will choose the closest NTP servers for you.
 perfsonar_ntp_servers: []
-#perfsonar_ntp_servers: 
+
+#perfsonar_ntp_servers:
 #  - { name: "NTP 1", hostname: ntp.switch.ch }
 #  - { name: "NTP 2", hostname: 0.ch.pool.ntp.org }
 #  - { name: "NTP 3", hostname: 1.ch.pool.ntp.org }
@@ -33,12 +34,12 @@ perfsonar_ntp_servers: []
 
 #Delete# # You can change the default variables for different platforms to which clock synchronization service to use.
 #Delete# # You can use chrony/chronyd instead of ntp
-#Delete# 
+#Delete#
 #Delete# timesync_service:
 #Delete#         Debian: ntp
 #Delete#         RedHat: ntpd
 #Delete#         default: ntp
-#Delete# 
+#Delete#
 #Delete# ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
 
 # Disable ssh root access
