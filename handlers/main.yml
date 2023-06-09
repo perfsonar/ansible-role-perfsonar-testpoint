@@ -1,12 +1,12 @@
 ---
 # handlers file for perfsonar-testpoint
 
-- name: restart ntp
+- name: SvcRestart TimeSync
   service:
-    name: "{{ ntp_service }}"
+    name: "{{ timesyncsvc }}"
     state: restarted
 
-- name: restart ssh
+- name: SvcRestart SSH
   service:
     name: "{{ ssh_service }}"
     state: restarted

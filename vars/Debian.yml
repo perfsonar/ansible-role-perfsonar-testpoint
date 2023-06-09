@@ -1,10 +1,10 @@
 # variables specific to Debian OS family
 ---
-# Default NTP service name: ntp
 
 # List of perfSONAR services to check are running on Debian hosts
 perfsonar_testpoint_os_specific_services:
   - apache2
   - postgresql
+  - "{{ timesyncsvc }}"
 
 perfsonar_toolkit_config_daemon: perfsonar-toolkit-config-daemon

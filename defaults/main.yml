@@ -15,6 +15,10 @@ perfsonar_optional_packages:
   - perfsonar-toolkit-sysctl
   - perfsonar-toolkit-systemenv-testpoint
 
+# You can change the default variables for different platforms to which clock synchronization service to use.
+# Recognized options are { ntpd ,chrony }
+timesync: ntpd
+
 # List of NTP servers you want to use on your perfSONAR hosts
 # If empty, any already configured NTP server will not be changed
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR

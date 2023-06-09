@@ -18,6 +18,7 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
 
+
 #####
 # Configuration part: ps::config tag
 #####
@@ -30,16 +31,19 @@
     regexp: '127\.0\..*[\s]+{{ ansible_fqdn }}[\s]+.*'
 
 # NTP is essential for good measurements
-- name: Configure additional NTP servers
+# Issue (item=chrony) => {"ansible_loop_var": "item", "changed": false, "item": "chrony", "msg": "Unable to start service chrony: Failed to start chrony.service: Unit chrony.service is masked.\n"}
+# Solution remove package ntpd
+
+- name: Configure additional Time servers
   tags: [ 'ps::config' ]
   blockinfile:
-    path: /etc/ntp.conf
+    path: "{{ timesynchash[timesync][ansible_os_family]['cfg'] }}"
     block: |
       server {{ item.hostname }} iburst
     marker: "# {mark} ansible-role-perfsonar {{ item.name }}"
   with_items: "{{ perfsonar_ntp_servers }}"
   notify:
-    - restart ntp
+    - SvcRestart TimeSync
 
 - name: Disable ssh root access
   tags: [ 'ps::config' ]
@@ -50,7 +54,7 @@
     line: "PermitRootLogin no"
   when: perfsonar_disable_root_ssh
   notify:
-    - restart ssh
+    - SvcRestart SSH
 
 - name: Configure LS registration
   tags: [ 'ps::config' ]
@@ -87,6 +91,7 @@
   loop_control:
     loop_var: auth_interface
 
+
 #####
 # Verifying part: ps::running tag
 #####
@@ -104,8 +109,8 @@
     name: "{{ item }}"
     state: started
   with_flattened:
-      - "{{ perfsonar_services }}"
-      - "{{ perfsonar_os_specific_services }}"
+    - "{{ perfsonar_services }}"
+    - "{{ perfsonar_os_specific_services }}"
 
 # Get some useful info out of the system
 - name: Check system status
