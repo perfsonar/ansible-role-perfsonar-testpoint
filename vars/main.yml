@@ -30,7 +30,7 @@ timesynchash:
 ssh_service: sshd
 
 # Time Sync service
-timesyncsvc: "{{ timesynchash[timesync][ansible_os_family]['svc'] }}"
+timesync_service: "{{ timesynchash[timesync][ansible_os_family]['svc'] }}"
 
 # List of perfSONAR services to check are running on a testpoint install
 perfsonar_testpoint_services:

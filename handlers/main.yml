@@ -3,7 +3,7 @@
 
 - name: SvcRestart TimeSync
   service:
-    name: "{{ timesyncsvc }}"
+    name: "{{ timesync_service }}"
     state: restarted
 
 - name: SvcRestart SSH

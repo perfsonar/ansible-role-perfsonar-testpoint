@@ -5,6 +5,6 @@
 perfsonar_testpoint_os_specific_services:
   - apache2
   - postgresql
-  - "{{ timesyncsvc }}"
+  - "{{ timesync_service }}"
 
 perfsonar_toolkit_config_daemon: perfsonar-toolkit-config-daemon
