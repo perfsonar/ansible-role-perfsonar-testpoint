@@ -4,8 +4,33 @@
 # This means they cannot be overwritten in inventory or playbook.
 # See http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
 
+# stays here, so that noone can just overwrite it
+#Time synchronization #TODO
+timesynchash:
+  chrony:
+    Debian:
+      pkg: chrony
+      svc: chrony
+      cfg: /etc/chrony/chrony.conf
+    RedHat:
+      pkg: chrony
+      svc: chronyd
+      cfg: /etc/chrony.conf
+  ntpd:
+    Debian:
+      pkg: ntp
+      svc: ntpd
+      cfg: /etc/ntp.conf
+    RedHat:
+      pkg: ntp
+      svc: ntpd
+      cfg: /etc/ntp.conf
+
 # SSH daemon service
 ssh_service: sshd
+
+# Time Sync service
+timesync_service: "{{ timesynchash[timesync][ansible_os_family]['svc'] }}"
 
 # List of perfSONAR services to check are running on a testpoint install
 perfsonar_testpoint_services:

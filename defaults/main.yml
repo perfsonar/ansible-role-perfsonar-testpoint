@@ -15,27 +15,32 @@ perfsonar_optional_packages:
   - perfsonar-toolkit-sysctl
   - perfsonar-toolkit-systemenv-testpoint
 
+# You can change the default variables for different platforms to which clock synchronization service to use.
+# Recognized options are { ntpd ,chrony }
+timesync: ntpd
+
 # List of NTP servers you want to use on your perfSONAR hosts
 # If empty, any already configured NTP server will not be changed
 # If you also install the 'perfsonar-toolkit-ntp' package below, the perfSONAR
 # provided script will choose the closest NTP servers for you.
 perfsonar_ntp_servers: []
-#perfsonar_ntp_servers: 
+
+#perfsonar_ntp_servers:
 #  - { name: "NTP 1", hostname: ntp.switch.ch }
 #  - { name: "NTP 2", hostname: 0.ch.pool.ntp.org }
 #  - { name: "NTP 3", hostname: 1.ch.pool.ntp.org }
 #  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
 #  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
 
-# You can change the default variables for different platforms to which clock synchronization service to use.
-# You can use chrony/chronyd instead of ntp
-
-timesync_service:
-        Debian: ntp
-        RedHat: ntpd
-        default: ntp
-
-ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
+#Delete# # You can change the default variables for different platforms to which clock synchronization service to use.
+#Delete# # You can use chrony/chronyd instead of ntp
+#Delete#
+#Delete# timesync_service:
+#Delete#         Debian: ntp
+#Delete#         RedHat: ntpd
+#Delete#         default: ntp
+#Delete#
+#Delete# ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
 
 # Disable ssh root access
 perfsonar_disable_root_ssh: True
