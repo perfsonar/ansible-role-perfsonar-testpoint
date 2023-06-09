@@ -31,15 +31,15 @@ perfsonar_ntp_servers: []
 #  - { name: "NTP 4", hostname: 2.ch.pool.ntp.org }
 #  - { name: "NTP 5", hostname: 3.ch.pool.ntp.org }
 
-# You can change the default variables for different platforms to which clock synchronization service to use.
-# You can use chrony/chronyd instead of ntp
-
-timesync_service:
-        Debian: ntp
-        RedHat: ntpd
-        default: ntp
-
-ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
+#Delete# # You can change the default variables for different platforms to which clock synchronization service to use.
+#Delete# # You can use chrony/chronyd instead of ntp
+#Delete# 
+#Delete# timesync_service:
+#Delete#         Debian: ntp
+#Delete#         RedHat: ntpd
+#Delete#         default: ntp
+#Delete# 
+#Delete# ntp_service: "{{ timesync_service[ansible_os_family] | default(timesync_service['default']) }}"
 
 # Disable ssh root access
 perfsonar_disable_root_ssh: True
