@@ -21,7 +21,7 @@
   ignore_errors: True
 
 - name: Get psconfig managed tasks
-  shell: psconfig pscheduler-stats | grep "Total tasks managed by agent:"
+  shell: psconfig stats pscheduler | grep "Total tasks managed by agent:"
   register: psconfig_managed_tasks
   changed_when: False
   ignore_errors: True
